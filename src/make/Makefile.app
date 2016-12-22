@@ -37,7 +37,7 @@ CFLAGS += -ansi
 
 CC = gcc
 
-COMMON_FLAGS = -ansi -g
+COMMON_FLAGS = -ansi -g -std=c++11
 
 INC_FLAGS = -I $(INCS_DIRS)
 
