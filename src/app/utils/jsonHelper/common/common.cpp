@@ -1,10 +1,12 @@
+#include "common.h"
+
 /*!
  * @internal
  */
 bool isSensorMessage(const std::string& message)
 {
-    if (strlen(message) > MAX_SENSOR_MESSAGE_LENGTH
-        || strlen(message) <= 0)
+    if (message.length() > MAX_SENSOR_MESSAGE_LENGTH
+        || message.length() <= 0)
     {
         return false;
     }
@@ -19,15 +21,15 @@ MESSAGE_TYPE getJSONMessageType(const std::string& message)
 {
     if (!isSensorMessage(message))
     {
-        return MESSAGE_TYPE.DEFAULT;
+        return MESSAGE_TYPE_DEFAULT;
     }
 
     switch(message[0])
     {
-    case LIGHT_INTENSITY_MESSAGE:
-        return MESSAGE_TYPE.LIGHT_INTENSITY;
+    case MESSAGE_TYPE_LIGHT_INTENSITY:
+        return MESSAGE_TYPE_LIGHT_INTENSITY;
     default:
-        return MESSAGE_TYPE.DEFAULT;
+        return MESSAGE_TYPE_DEFAULT;
     }
 }
 
