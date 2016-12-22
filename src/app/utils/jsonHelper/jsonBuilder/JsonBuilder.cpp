@@ -24,53 +24,9 @@
 /*!
  * @internal
  */
-bool buildJson(const std::string& message, std::string& jsonString)
-{
-    boost::property_tree::ptree root;
-    boost::property_tree::ptree messageTypeTree;
-    boost::property_tree::ptree dataTree;
-
-    MESSAGE_TYPE messageType = getMessageType(message);
-    if (messageType == MESSAGE_TYPE.DEFAULT)
-    {
-        return false;
-    }
-
-    if (!buildJsonMessageType(messageType, messageTypeTree))
-    {
-        return false;
-    }
-
-    if (messageType == LIGHT_INTENSITY)
-    {
-        if (!buildLightIntensityJson(message, dataTree))
-        {
-            return false;
-        }
-    }
-
-    root.add_child(ATTR_JSON_MESSAGE_TYPE, messageTypeTree);
-    root.add_child(ATTR_JSON_DATA, dataTree);
-
-    if (!writeJsonToString(root, jsonString))
-    {
-        return false;
-    }
-
-    return true;
-}
-
-/*!
- * @internal
- */
-static bool buildJsonMessageType(const MESSAGE_TYPE& messageType,
+STATIC bool buildJsonMessageType(const MESSAGE_TYPE& messageType,
                                 boost::property_tree::ptree& messageTypeTree)
 {
-    if (messageTypeTree == NULL)
-    {
-        return false;
-    }
-
     messageTypeTree.put(ATTR_JSON_MESSAGE_TYPE, ATTR_JSON_LIGHT_INTENSITY);
 
     return true;
@@ -79,7 +35,7 @@ static bool buildJsonMessageType(const MESSAGE_TYPE& messageType,
 /*!
  * @internal
  */
-bool buildLightIntensityJson(const std::string& message,
+STATIC bool buildLightIntensityJson(const std::string& message,
                                     boost::property_tree::ptree& dataTree)
 {
     if (!isSensorMessage(message))
@@ -109,8 +65,47 @@ bool buildLightIntensityJson(const std::string& message,
                                                     std::string& jsonString)
  {
     std::ostringstream buffer; 
-    boost::property_tree::ptree::write_json(buffer, pTree, false); 
+    boost::property_tree::write_json(buffer, pTree, false); 
     jsonString = buffer.str();
 
     return true;
  }
+
+/*!
+ * @internal
+ */
+bool buildJson(const std::string& message, std::string& jsonString)
+{
+    boost::property_tree::ptree root;
+    boost::property_tree::ptree messageTypeTree;
+    boost::property_tree::ptree dataTree;
+
+    MESSAGE_TYPE messageType = getJSONMessageType(message);
+    if (messageType == MESSAGE_TYPE_DEFAULT)
+    {
+        return false;
+    }
+
+    if (!buildJsonMessageType(messageType, messageTypeTree))
+    {
+        return false;
+    }
+
+    if (messageType == MESSAGE_TYPE_LIGHT_INTENSITY)
+    {
+        if (!buildLightIntensityJson(message, dataTree))
+        {
+            return false;
+        }
+    }
+
+    root.add_child(ATTR_JSON_MESSAGE_TYPE, messageTypeTree);
+    root.add_child(ATTR_JSON_DATA, dataTree);
+
+    if (!writeJsonToString(root, jsonString))
+    {
+        return false;
+    }
+
+    return true;
+}

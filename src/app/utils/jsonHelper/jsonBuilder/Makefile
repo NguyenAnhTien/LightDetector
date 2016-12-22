@@ -14,12 +14,16 @@ endif
 
 #------------------------------------------------------------------------------
 #source
-SRCS = jsonBuilder.cpp
+SRCS = JsonBuilder.cpp
 OBJS = $(SRCS:.cpp=.o)
+
+#-----------------------------------------------------------------------------
+LIBDIRS_jsonCommon  = $(LIDT_ROOT)/src/app/utils/jsonHelper/common/
+LIBRARY             = jsonCommon
 
 #------------------------------------------------------------------------------
 #include source code
-INCS = .
+INCS_DIRS = src/app/utils/jsonHelper/common
 
 #------------------------------------------------------------------------------
 #include makefile
