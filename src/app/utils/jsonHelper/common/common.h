@@ -19,6 +19,7 @@
 #include <iostream>
 #include <string.h>
 #include <string>
+#include <stdint.h>
 
 #include <boost/property_tree/ptree.hpp>
 #include <boost/property_tree/json_parser.hpp>
@@ -32,9 +33,9 @@
 
 enum MESSAGE_TYPE
 {
-    DEFAULT = -1,
-    LIGHT_INTENSITY,
-    CONTROL_SMART_PLUG
+    MESSAGE_TYPE_DEFAULT = -1,
+    MESSAGE_TYPE_LIGHT_INTENSITY,
+    MESSAGE_TYPE_CONTROL_SMART_PLUG
 };
 
 /*!
