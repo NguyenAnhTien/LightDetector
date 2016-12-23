@@ -26,7 +26,7 @@
 #include <boost/property_tree/json_parser.hpp>
 
 #define MAX_SENSOR_MESSAGE_LENGTH 5
-#define LIGHT_INTENSITY_MESSAGE 'L'
+#define LIGHT_INTENSITY_MESSAGE_VALUE 'L'
 #define ATTR_JSON_MESSAGE_TYPE "MESSAGE_TYPE"
 #define ATTR_JSON_DATA "data"
 #define ATTR_JSON_LIGHT_INTENSITY "LIGHT_INTENSITY"
@@ -44,7 +44,7 @@ enum MESSAGE_TYPE
  * param[in] message
  * return
  */
-MESSAGE_TYPE getJSONMessageType(std::string message);
+MESSAGE_TYPE getJSONMessageType(const std::string& message);
 
 /*!
  * @brief
