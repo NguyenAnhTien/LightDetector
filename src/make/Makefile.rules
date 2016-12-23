@@ -97,22 +97,23 @@ report_xml: $(TEST_BIN)
 	./$^ $(LIBS) --gtest_output=xml
 
 report_cover: report_xml
-	$(ECHO) 'Generating HTML output'
-	$(LCOV) -q -c -b $(LCOV_BASEDIR) -d $(OBJ_DIR) -o r.info.all
-	$(LCOV) -q -e r.info.all "*$(TCS_ROOT)/$(TEST_OBJECT)*" -b $(LCOV_BASEDIR) -o r.info.all
+	$(ECHO) 'Generating UNITTEST_REPORT'
+	$(LCOV) --capture -q -c -b $(LCOV_BASEDIR) -d $(OBJ_DIR) -o r.info.all
+	$(LCOV) --remove r.info.all "/usr*" -o r.info.all
+	$(LCOV) --remove r.info.all "gtest*" -o r.info.all
 	$(LCOV) -q -r r.info.all "*/test/*" -b $(LCOV_BASEDIR) -o r.info
 	$(GENHTML) -q -o $(REPORT_COVER_DIR) --t VARBASE_TEST_RESULT r.info 
 	$(LCOV) -q -z -b $(LCOV_BASEDIR) -d $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o:     ../%.c
-	$(ECHO) " Compiling " $< "For UT"
+	$(ECHO) " Compiling " $< "for unittest"
 	$(RM) $@;
-	$(CC) $(COMMON_FLAGS) -o $@ -c $(INCLUDES) $(INCLUDE_LIBS) $< 
+	$(CC) -c $(COMMON_FLAGS) $< -o $@ $(LIBS) $(INCLUDES) $(INCLUDE_LIBS)
 
 $(OBJ_DIR)/%.o:     ../%.cpp
-	$(ECHO) " Compiling " $<  "For UT"
+	$(ECHO) " Compiling " $<  "for unittest"
 	$(RM) $@;
-	$(CPP) $(COMMON_FLAGS) -o $@ -c $(INCLUDES) $(INCLUDE_LIBS) $< 
+	$(CPP) -c $(COMMON_FLAGS) $< -o $@ $(LIBS) $(INCLUDES) $(INCLUDE_LIBS)
 
 gtest.bin: $(TEST_OBJS) $(OBJS)
 	$(ECHO) " Linking " $@
@@ -120,15 +121,6 @@ gtest.bin: $(TEST_OBJS) $(OBJS)
 	$(CPP) $^ $(LIBS) -L$(LIB_DIR) $(patsubst lib%.a, -l%, $(filter %.a, $^)) -o $@
 
 CLEAN += $(OBJS)
-
-endif
-
-#-------------------------------------------------------------------------------
-#Compile library
-ifdef   LIBRARY
-lib%.a:
-	$(ECHO) "Compiling library "
-	@cd $(LIBDIRS_$*); $(MAKE)
 endif
 
 #------------------------------------------------------------------------------
@@ -142,8 +134,8 @@ $(OBJ_DIR)/%.o:     %.c
 $(OBJ_DIR)/%.o:     %.cpp
 	$(ECHO) "Compiling to Object" $<
 	$(RM) $@
-	$(ECHO) "MYSQL ROOT " $(MYSQL_CONN_ROOT)
-	$(CPP) $(COMMON_FLAGS) -c $< -o $@ $(LIBS) $(INCLUDES) $(INCLUDE_LIBS)
+	echo $(INCLUDE_LIBS)
+	$(CPP) -c $(COMMON_FLAGS) $< -o $@ $(LIBS) $(INCLUDES) $(INCLUDE_LIBS)
 
 $(LIB_DIR)/lib%_$(ARCHIVE_ALT).a: $(OBJS)
 	$(ECHO) "Creating archive" $@
@@ -155,6 +147,14 @@ $(LIB_DIR)/lib%.a: $(OBJS)
 
 $(OBJ_DIR)/lib%.so:     %.o
 	$(CC) -shared -o $@ $<
+
+#-------------------------------------------------------------------------------
+#Compile library
+ifdef   LIBRARY
+lib%.a:
+	$(ECHO) "Compiling library "
+	@cd $(LIBDIRS_$*); $(MAKE)
+endif
 
 #-------------------------------------------------------------------------------
 # clean and clobber etc.

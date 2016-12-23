@@ -1,5 +1,5 @@
 #-----------------------------------------------------------------------------
-#Makefile - src/app/utils/jsonHelper/Makefile
+#Makefile - src/app/utils/jsonHelper/common/Makefile
 # Copyright (c) Tien Nguyen Anh
 # Modification history
 # --------------------
