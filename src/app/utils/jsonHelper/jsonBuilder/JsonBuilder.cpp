@@ -28,6 +28,11 @@
 STATIC bool buildJsonMessageType(const MESSAGE_TYPE& messageType,
                                 boost::property_tree::ptree& messageTypeTree)
 {
+    if (messageType == MESSAGE_TYPE_DEFAULT)
+    {
+        return false;
+    }
+
     messageTypeTree.put(ATTR_JSON_MESSAGE_TYPE, ATTR_JSON_LIGHT_INTENSITY);
 
     return true;
@@ -44,7 +49,7 @@ STATIC bool buildLightIntensityJson(const std::string& message,
         return false;
     }
 
-    if (getJSONMessageType(message) != LIGHT_INTENSITY_MESSAGE)
+    if (getJSONMessageType(message) != MESSAGE_TYPE_LIGHT_INTENSITY)
     {
         return false;
     }
@@ -62,15 +67,13 @@ STATIC bool buildLightIntensityJson(const std::string& message,
 /*!
  * @internal
  */
- bool writeJsonToString(boost::property_tree::ptree& pTree,
-                                                    std::string& jsonString)
- {
+std::string writeJsonToString(boost::property_tree::ptree& pTree)
+{
     std::ostringstream buffer; 
     boost::property_tree::write_json(buffer, pTree, false); 
-    jsonString = buffer.str();
-
-    return true;
- }
+    
+    return buffer.str();
+}
 
 /*!
  * @internal
@@ -82,31 +85,20 @@ bool buildJson(const std::string& message, std::string& jsonString)
     boost::property_tree::ptree dataTree;
 
     MESSAGE_TYPE messageType = getJSONMessageType(message);
-    if (messageType == MESSAGE_TYPE_DEFAULT)
+
+    if (!buildJsonMessageType(messageType, root))
     {
         return false;
     }
 
-    if (!buildJsonMessageType(messageType, messageTypeTree))
+    if (!buildLightIntensityJson(message, dataTree))
     {
         return false;
     }
 
-    if (messageType == MESSAGE_TYPE_LIGHT_INTENSITY)
-    {
-        if (!buildLightIntensityJson(message, dataTree))
-        {
-            return false;
-        }
-    }
-
-    root.add_child(ATTR_JSON_MESSAGE_TYPE, messageTypeTree);
     root.add_child(ATTR_JSON_DATA, dataTree);
 
-    if (!writeJsonToString(root, jsonString))
-    {
-        return false;
-    }
+    jsonString = writeJsonToString(root);
 
     return true;
 }

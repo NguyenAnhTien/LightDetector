@@ -18,8 +18,8 @@ SRCS = JsonBuilder.cpp
 OBJS = $(SRCS:.cpp=.o)
 
 #-----------------------------------------------------------------------------
-LIBDIRS_jsonCommon  = $(LIDT_ROOT)/src/app/utils/jsonHelper/common/
-LIBRARY             = jsonCommon
+LIBDIRS_jsonCommon  += $(LIDT_ROOT)/src/app/utils/jsonHelper/common/
+LIBRARY             += jsonCommon
 
 #------------------------------------------------------------------------------
 #include source code

@@ -1,11 +1,11 @@
 /****************************************************************************/
 /*!
- * @file LightIntensityTest.cpp
- * @brief Unittest for LightIntensity class
+ * @file CommonTest.cpp
+ * @brief Unittest for CommonTest class
  *
  * Copyright (c) Tien Nguyen Anh 2016 
  *
- * @detail The testing file of the implementation of LightIntensity class
+ * @detail The testing file of the implementation of CommonTest class
  */
 /****************************************************************************/
 

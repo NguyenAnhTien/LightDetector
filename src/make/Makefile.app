@@ -39,6 +39,10 @@ CC = gcc
 
 COMMON_FLAGS = -ansi -g -std=c++11
 
+ifeq ($(APP),unittest)
+	COMMON_FLAGS += -DUNITTEST
+endif
+
 INC_FLAGS = -I $(INCS_DIRS)
 
 STRIP = strip

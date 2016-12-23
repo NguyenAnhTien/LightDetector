@@ -24,6 +24,14 @@
  * param[in] message
  * return
  */
-std::string buildJson(const std::string& message);
+bool buildJson(const std::string& message, std::string& jsonString);
+
+/*!
+ * @brief
+ * param[in] pTree
+ * param[out] jsonString
+ * return
+ */
+std::string writeJsonToString(boost::property_tree::ptree& pTree);
 
 #endif

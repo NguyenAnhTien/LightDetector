@@ -106,19 +106,19 @@ report_cover: report_xml
 	$(LCOV) -q -z -b $(LCOV_BASEDIR) -d $(OBJ_DIR)
 
 $(OBJ_DIR)/%.o:     ../%.c
-	$(ECHO) " Compiling " $< "for unittest"
+	@$(ECHO) " Compiling " $< "for unittest"
 	$(RM) $@;
 	$(CC) -c $(COMMON_FLAGS) $< -o $@ $(LIBS) $(INCLUDES) $(INCLUDE_LIBS)
 
 $(OBJ_DIR)/%.o:     ../%.cpp
-	$(ECHO) " Compiling " $<  "for unittest"
+	@$(ECHO) " Compiling " $<  "for unittest"
 	$(RM) $@;
 	$(CPP) -c $(COMMON_FLAGS) $< -o $@ $(LIBS) $(INCLUDES) $(INCLUDE_LIBS)
 
 gtest.bin: $(TEST_OBJS) $(OBJS)
 	$(ECHO) " Linking " $@
 	$(RM) $@
-	$(CPP) $^ $(LIBS) -L$(LIB_DIR) $(patsubst lib%.a, -l%, $(filter %.a, $^)) -o $@
+	$(CPP) $^ $(LIBS) -L$(LIB_DIR) -L$(LIDT_LIBS_DIR) $(patsubst lib%.a, -l%, $(filter %.a, $(LIDT_LIBS))) -o $@
 
 CLEAN += $(OBJS)
 endif
