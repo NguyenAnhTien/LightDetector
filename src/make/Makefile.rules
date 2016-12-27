@@ -68,7 +68,7 @@ ARCHIVES_CLEAN := $(ARCHIVES)
 
 all:    $(OBJS)
 
-all:    $(LOCAL_TARGET) $(TARGET) $(PROGRAM) $(ARCHIVES)
+all:    $(LIDT_LIBS) $(LOCAL_TARGET) $(TARGET) $(PROGRAM) $(ARCHIVES)
 
 #-------------------------------------------------------------------------------
 # Compiler flags
@@ -134,7 +134,6 @@ $(OBJ_DIR)/%.o:     %.c
 $(OBJ_DIR)/%.o:     %.cpp
 	$(ECHO) "Compiling to Object" $<
 	$(RM) $@
-	echo $(INCLUDE_LIBS)
 	$(CPP) -c $(COMMON_FLAGS) $< -o $@ $(LIBS) $(INCLUDES) $(INCLUDE_LIBS)
 
 $(LIB_DIR)/lib%_$(ARCHIVE_ALT).a: $(OBJS)
@@ -143,7 +142,7 @@ $(LIB_DIR)/lib%_$(ARCHIVE_ALT).a: $(OBJS)
 
 $(LIB_DIR)/lib%.a: $(OBJS)
 	$(ECHO) "Creating archive" $@
-	$(AR) -cr $@ $^
+	$(AR) -cr $@ $^ $(SUBOBJS)
 
 $(OBJ_DIR)/lib%.so:     %.o
 	$(CC) -shared -o $@ $<
@@ -151,8 +150,8 @@ $(OBJ_DIR)/lib%.so:     %.o
 #-------------------------------------------------------------------------------
 #Compile library
 ifdef   LIBRARY
-lib%.a:
-	$(ECHO) "Compiling library "
+lib%.a: 
+	$(ECHO) "Compiling library " $(LIBDIRS_$*)
 	@cd $(LIBDIRS_$*); $(MAKE)
 endif
 

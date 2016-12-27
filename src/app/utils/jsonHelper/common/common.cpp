@@ -52,6 +52,22 @@ MESSAGE_TYPE getJSONMessageType(const std::string& message)
 /*!
  * @internal
  */
+std::string convertMessageTypeToStr(const MESSAGE_TYPE& messageType)
+{
+    switch(messageType)
+    {
+    case MESSAGE_TYPE_LIGHT_INTENSITY:
+        return std::string(LIGHT_INTENSITY_TOPIC);
+    case MESSAGE_TYPE_CONTROL_SMART_PLUG:
+        return std::string(CONTROL_SMART_PLUG_TOPIC);
+    default:
+        return std::string("MESSAGE_TYPE_DEFAULT");
+    }
+}
+
+/*!
+ * @internal
+ */
 uint16_t convertToInt16(char LSB, char MSB)
 {
 	uint16_t value = LSB | uint16_t(MSB) << 8;

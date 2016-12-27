@@ -73,20 +73,31 @@ void MessageReceiver::run()
                 int n = this->socket.receiveFrom(pBuffer, this->bufferSize, sender);
                 std::cout << "Message is: " << pBuffer << std::endl;
 
-                if (strlen(pBuffer) > 0 && strlen(pBuffer) < 4)
+                std::string message(pBuffer);
+                std::string jsonString;
+
+                if (isSensorMessage(message))
                 {
-                    char typeOfMessage = pBuffer[0];
-                    char LSB = pBuffer[1];
-                    char MSB = pBuffer[2];
+                    if (!buildJson(message, jsonString))
+                    {
+                        continue;
+                    }
 
-                    uint16_t lightIntensity = LSB | uint16_t(MSB) << 8;
+                    MESSAGE_TYPE messageType = getJSONMessageType(message);
 
-                    std::cout << "Light Intensity is: " << lightIntensity << std::endl;
-                    char message[256] = {};
-                    sprintf(message, "%u", lightIntensity);
+                    // char typeOfMessage = pBuffer[0];
+                    // char LSB = pBuffer[1];
+                    // char MSB = pBuffer[2];
+
+                    // uint16_t lightIntensity = LSB | uint16_t(MSB) << 8;
+
+                    // std::cout << "Light Intensity is: " << lightIntensity << std::endl;
+                    // char message[256] = {};
+                    // sprintf(message, "%u", lightIntensity);
                     
-                    s_sendmore (publisher, "LightIntensity");
-                    s_send (publisher, message);
+                    std::string topic = convertMessageTypeToStr(messageType); 
+                    s_sendmore (publisher, (char*)topic.c_str());
+                    s_send (publisher, (char*)jsonString.c_str());
                     sleep (1);
                 }
 

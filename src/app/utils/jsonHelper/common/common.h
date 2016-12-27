@@ -31,6 +31,8 @@
 #define ATTR_JSON_DATA "data"
 #define ATTR_JSON_LIGHT_INTENSITY "LIGHT_INTENSITY_VALUE"
 #define ATTR_JSON_MOMENT "moment"
+#define LIGHT_INTENSITY_TOPIC "LIGHT_INTENSITY_TOPIC"
+#define CONTROL_SMART_PLUG_TOPIC "LIGHT_CONTROL_SMART_PLUG_TOPIC"
 
 enum MESSAGE_TYPE
 {
@@ -45,6 +47,13 @@ enum MESSAGE_TYPE
  * return
  */
 MESSAGE_TYPE getJSONMessageType(const std::string& message);
+
+/*!
+ * @brief
+ * param[in] message
+ * return
+ */
+std::string convertMessageTypeToStr(const MESSAGE_TYPE& messageType);
 
 /*!
  * @brief

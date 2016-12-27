@@ -29,6 +29,9 @@
 #include "Poco/Event.h"
 #include "Poco/Timespan.h"
 
+#include "common.h"
+#include "JsonBuilder.h"
+
 #define PUBLISHER_PORT_OPT 5600
 
 class MessageReceiver: public Poco::Runnable

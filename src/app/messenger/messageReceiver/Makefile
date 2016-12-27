@@ -18,9 +18,21 @@ endif
 #Source
 SRCS = MessageReceiver.cpp
 OBJS = $(SRCS:.cpp=.o)
+SUBOBJS += JsonBuilder.o
+SUBOBJS += common.o
+#------------------------------------------------------------------------------
+#include source code
+INCS_DIRS = src/app/utils/jsonHelper/common \
+			src/app/utils/jsonHelper/jsonBuilder
 
 #-----------------------------------------------------------------------------
-INCS_DIRS += . 
+LIBDIRS_jsonCommon  = $(LIDT_ROOT)/src/app/utils/jsonHelper/common/
+LIBRARY             += jsonCommon
+LIBDIRS_jsonBuilder = $(LIDT_ROOT)/src/app/utils/jsonHelper/jsonBuilder/
+LIBRARY             += jsonBuilder
+
+#-----------------------------------------------------------------------------
+#INCS_DIRS += . 
 
 #-----------------------------------------------------------------------------
 

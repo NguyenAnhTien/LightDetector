@@ -21,7 +21,7 @@ endif
 # Definition
 
 ifndef OBJ_DIR
-	OBJ_DIR = $(APP_OBJ)/$(APP)
+	OBJ_DIR = $(APP_OBJ)/
 endif
 
 ifneq ($(APP),unittest)

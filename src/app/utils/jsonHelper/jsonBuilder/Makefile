@@ -16,7 +16,7 @@ endif
 #source
 SRCS = JsonBuilder.cpp
 OBJS = $(SRCS:.cpp=.o)
-
+SUBOBJS = common.o
 #-----------------------------------------------------------------------------
 LIBDIRS_jsonCommon  += $(LIDT_ROOT)/src/app/utils/jsonHelper/common/
 LIBRARY             += jsonCommon
