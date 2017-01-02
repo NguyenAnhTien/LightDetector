@@ -25,6 +25,8 @@ TARGET_DIR = $(LIDT_ROOT)/runtime
 
 #-------------------------------------------------------------------------------
 
+RUN_TIME := $(TARGET_DIR)
+
 ifdef ARCHIVE_ALT
     ADD_ARCHIVES := $(addsuffix _$(ARCHIVE_ALT), $(ARCHIVES))
     ARCHIVES += $(ADD_ARCHIVES)
@@ -101,6 +103,7 @@ report_cover: report_xml
 	$(LCOV) --capture -q -c -b $(LCOV_BASEDIR) -d $(OBJ_DIR) -o r.info.all
 	@$(LCOV) --remove r.info.all "/usr*" -o r.info.all > /dev/null
 	@$(LCOV) --remove r.info.all "gtest*" -o r.info.all > /dev/null
+	@$(LCOV) --remove r.info.all "/development/*" -o r.info.all > /dev/null
 	$(LCOV) -q -r r.info.all "*/test/*" -b $(LCOV_BASEDIR) -o r.info
 	$(GENHTML) -q -o $(REPORT_COVER_DIR) --t VARBASE_TEST_RESULT r.info 
 	$(LCOV) -q -z -b $(LCOV_BASEDIR) -d $(OBJ_DIR)

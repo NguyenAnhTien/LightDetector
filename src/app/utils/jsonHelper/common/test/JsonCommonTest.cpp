@@ -11,7 +11,7 @@
 
 #include <gtest/gtest.h>
 
-#include "common.h"
+#include "JsonCommon.h"
 
 class JsonCommonTest : public ::testing::Test
 {
@@ -81,4 +81,15 @@ TEST_F(JsonCommonTest, TestconvertToInt16)
     char MSB = 'B';
     uint16_t value = convertToInt16(LSB, MSB);
     EXPECT_EQ(16961, value);
+}
+
+TEST_F(JsonCommonTest, TestconvertArduinoMsgToInt16)
+{
+    uint16_t value = -1;
+    char msg[7];
+    memset(msg, 0, sizeof(char) * 7);
+    strcpy(msg, "L0820");
+    bool status = convertArduinoMsgToInt16(msg, &value);
+    EXPECT_TRUE(status);
+    EXPECT_EQ(value, 640);
 }

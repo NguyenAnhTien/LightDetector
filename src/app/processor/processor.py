@@ -18,10 +18,11 @@ context = zmq.Context()
 sock = context.socket(zmq.SUB)
 
 # Define subscription and messages with prefix to accept.
-sock.setsockopt_string(zmq.SUBSCRIBE, "LightIntensity")
+sock.setsockopt_string(zmq.SUBSCRIBE, "LIGHT_INTENSITY_TOPIC")
 sock.connect("tcp://127.0.0.1:5563")
 
 while True:
     message= sock.recv()
-    topic, messagedata = message.split()
-    print("Topic: %s Message: %s" %(topic, message))
+    print("Message: ", message)
+    # topic, messagedata = message.split()
+    # print("Topic: %s Message: %s" %(topic, message))

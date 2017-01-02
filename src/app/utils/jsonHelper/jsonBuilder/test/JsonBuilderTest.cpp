@@ -15,7 +15,7 @@
 
 extern bool buildJsonMessageType(const MESSAGE_TYPE& messageType,
                                 boost::property_tree::ptree& messageTypeTree);
-extern bool buildLightIntensityJson(const std::string& message,
+extern bool buildLightIntensityJson(const char* message,
                                     boost::property_tree::ptree& dataTree);
 
 class JsonBuilderTest : public ::testing::Test
@@ -58,13 +58,12 @@ TEST_F(JsonBuilderTest, TestbuildJsonMessageType_MESSAGE_TYPE_DEFAULT)
 TEST_F(JsonBuilderTest, TestbuildLightIntensityJson_RESULT_OK)
 {
     boost::property_tree::ptree dataTree;
-    std::string message("LCBDA");
+    std::string message("L0820");
     
     boost::property_tree::ptree expectedTree;
-    expectedTree.put("LIGHT_INTENSITY_VALUE", "16963");
-    expectedTree.put("moment", "16708");
+    expectedTree.put("LIGHT_INTENSITY_VALUE", "640");
 
-    bool status = buildLightIntensityJson(message, dataTree);
+    bool status = buildLightIntensityJson(message.c_str(), dataTree);
 
     EXPECT_TRUE(status);
     EXPECT_EQ(expectedTree, dataTree);
@@ -75,7 +74,7 @@ TEST_F(JsonBuilderTest, TestbuildLightIntensityJson_NOT_SENSOR_MESSAGE)
     boost::property_tree::ptree dataTree;
     std::string message("LCBD");
 
-    bool status = buildLightIntensityJson(message, dataTree);
+    bool status = buildLightIntensityJson(message.c_str(), dataTree);
 
     EXPECT_FALSE(status);
 }
@@ -85,15 +84,15 @@ TEST_F(JsonBuilderTest, TestbuildLightIntensityJson_NOT_LIGHT_MESSAGE)
     boost::property_tree::ptree dataTree;
     std::string message("CCBDA");
 
-    bool status = buildLightIntensityJson(message, dataTree);
+    bool status = buildLightIntensityJson(message.c_str(), dataTree);
 
     EXPECT_FALSE(status);
 }
 
 TEST_F(JsonBuilderTest, TestbuildJson_RESULT_OK)
 {
-    std::string jsonString;
-    std::string message("LCBDA");
+    char* jsonString = NULL;
+    std::string message("L0820");
 
     boost::property_tree::ptree expectedTree;
     char* rootENV = std::getenv("LIDT_ROOT");
@@ -103,9 +102,9 @@ TEST_F(JsonBuilderTest, TestbuildJson_RESULT_OK)
 
     boost::property_tree::read_json(jsonFilePath, expectedTree);
 
-    bool status = buildJson(message, jsonString);
+    bool status = buildJson(message.c_str(), &jsonString);
     boost::property_tree::ptree actualTree;
-    
+    std::cout << "jsonString: " << jsonString << std::endl;
     std::stringstream stringStream(jsonString);
     boost::property_tree::read_json(stringStream, actualTree);
 
@@ -115,30 +114,30 @@ TEST_F(JsonBuilderTest, TestbuildJson_RESULT_OK)
 
 TEST_F(JsonBuilderTest, TestbuildJson_MESSAGE_TYPE_RESULT_FAILURE_1)
 {
-    std::string jsonString;
+    char* jsonString = NULL;
     std::string message("LCAD");
 
-    bool status = buildJson(message, jsonString);
+    bool status = buildJson(message.c_str(), &jsonString);
 
     EXPECT_FALSE(status);
 }
 
 TEST_F(JsonBuilderTest, TestbuildJson_RESULT_FAILURE_2)
 {
-    std::string jsonString;
+    char* jsonString = NULL;
     std::string message("CCBDA");
 
-    bool status = buildJson(message, jsonString);
+    bool status = buildJson(message.c_str(), &jsonString);
 
     EXPECT_FALSE(status);
 }
 
 TEST_F(JsonBuilderTest, TestbuildJson_RESULT_FAILURE_3)
 {
-    std::string jsonString;
+    char* jsonString = NULL;
     std::string message("LBDA");
 
-    bool status = buildJson(message, jsonString);
+    bool status = buildJson(message.c_str(), &jsonString);
 
     EXPECT_FALSE(status);
 }

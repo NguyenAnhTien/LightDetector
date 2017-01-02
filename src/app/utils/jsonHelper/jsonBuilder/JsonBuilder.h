@@ -17,14 +17,14 @@
 #ifndef __JSON_BUILDER_H__
 #define __JSON_BUILDER_H__
 
-#include "common.h"
+#include "JsonCommon.h"
 
 /*!
  * @brief
  * param[in] message
  * return
  */
-bool buildJson(const std::string& message, std::string& jsonString);
+bool buildJson(const char* message, char** jsonString);
 
 /*!
  * @brief

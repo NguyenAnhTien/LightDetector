@@ -1,10 +1,12 @@
 {
-    "MESSAGE_TYPE" : "LIGHT_INTENSITY_VALUE"
-    ,
-    "data":
+    "MESSAGE_TYPE" : "LIGHT_INTENSITY_VALUE",
+    "data" : 
     {
-        "LIGHT_INTENSITY_VALUE" : "16963",
-        "moment" : "16708"
+        "LIGHT_INTENSITY_VALUE" : "33"
+    },
+    "Sender" : 
+    {
+        "IP" : "192.168.1.177",
+        "Port" : "5600"
     }
 }
-                                                                                                                                               

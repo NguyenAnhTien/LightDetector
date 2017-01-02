@@ -54,7 +54,6 @@ Poco::UInt16 MessageReceiver::port() const
 
 void MessageReceiver::run()
 {
-    std::cout << "Starting here!!!" << std::endl;
     this->ready.set();
     Poco::Timespan span(250000);
     char* pBuffer = new char[this->bufferSize];
@@ -71,33 +70,27 @@ void MessageReceiver::run()
             {
                 Poco::Net::SocketAddress sender;
                 int n = this->socket.receiveFrom(pBuffer, this->bufferSize, sender);
-                std::cout << "Message is: " << pBuffer << std::endl;
 
-                std::string message(pBuffer);
-                std::string jsonString;
+                char* jsonString = NULL;
 
-                if (isSensorMessage(message))
+                /*!
+                 * Appending IP of Sender to message
+                 */
+                strcat(pBuffer, SENSOR_MESSAGE_SPLITTER);
+                strcat(pBuffer, sender.toString().c_str());
+
+                if (isSensorMessage(pBuffer))
                 {
-                    if (!buildJson(message, jsonString))
+                    if (!buildJson(pBuffer, &jsonString))
                     {
                         continue;
                     }
 
-                    MESSAGE_TYPE messageType = getJSONMessageType(message);
-
-                    // char typeOfMessage = pBuffer[0];
-                    // char LSB = pBuffer[1];
-                    // char MSB = pBuffer[2];
-
-                    // uint16_t lightIntensity = LSB | uint16_t(MSB) << 8;
-
-                    // std::cout << "Light Intensity is: " << lightIntensity << std::endl;
-                    // char message[256] = {};
-                    // sprintf(message, "%u", lightIntensity);
+                    MESSAGE_TYPE messageType = getJSONMessageType(pBuffer);
                     
-                    std::string topic = convertMessageTypeToStr(messageType); 
+                    std::string topic = convertMessageTypeToStr(messageType);
                     s_sendmore (publisher, (char*)topic.c_str());
-                    s_send (publisher, (char*)jsonString.c_str());
+                    s_send (publisher, jsonString);
                     sleep (1);
                 }
 

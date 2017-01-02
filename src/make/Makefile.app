@@ -24,6 +24,10 @@ ifndef OBJ_DIR
 	OBJ_DIR = $(APP_OBJ)/
 endif
 
+ifndef RUN_TIME
+	RUN_TIME = $(LIDT_ROOT)/runtime
+endif
+
 ifneq ($(APP),unittest)
 EXPLICIT = APP=$(APP)
 else

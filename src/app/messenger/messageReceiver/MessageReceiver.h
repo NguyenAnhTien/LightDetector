@@ -21,6 +21,7 @@
 
 #include <iostream>
 #include <string.h>
+#include <arpa/inet.h>
 
 #include "zhelpers.h"
 #include "Poco/Net/Socket.h"
@@ -29,7 +30,7 @@
 #include "Poco/Event.h"
 #include "Poco/Timespan.h"
 
-#include "common.h"
+#include "JsonCommon.h"
 #include "JsonBuilder.h"
 
 #define PUBLISHER_PORT_OPT 5600

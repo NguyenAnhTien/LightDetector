@@ -1,7 +1,7 @@
 /*****************************************************************************/
 /*!
- * @file common.cpp
- * @brief The implementation of common.h
+ * @file JsonCommon.cpp
+ * @brief The implementation of JsonCommon.h
  *
  * Copyright (c) Tien Nguyen Anh
  *
@@ -14,15 +14,27 @@
  */
 /*****************************************************************************/
 
-#include "common.h"
+#include "JsonCommon.h"
 
 /*!
  * @internal
  */
-bool isSensorMessage(const std::string& message)
+bool isSensorMessage(const char* message)
 {
-    if (message.length() != MAX_SENSOR_MESSAGE_LENGTH
-        || message.length() <= 0)
+    std::string messageStr(message);
+
+    if (messageStr.length() >= MAX_SENSOR_MESSAGE_LENGTH
+        || messageStr.length() <= 0)
+    {
+        return false;
+    }
+
+    if (messageStr.find(SENSOR_MESSAGE_SPLITTER) == std::string::npos)
+    {
+        return false;
+    }
+
+    if (messageStr.find(IP_PORT_REGEX_SPLITTER) == std::string::npos)
     {
         return false;
     }
@@ -33,13 +45,8 @@ bool isSensorMessage(const std::string& message)
 /*!
  * @internal
  */
-MESSAGE_TYPE getJSONMessageType(const std::string& message)
+MESSAGE_TYPE getJSONMessageType(const char* message)
 {
-    if (!isSensorMessage(message))
-    {
-        return MESSAGE_TYPE_DEFAULT;
-    }
-
     switch(message[0])
     {
     case LIGHT_INTENSITY_MESSAGE_VALUE:
@@ -72,4 +79,79 @@ uint16_t convertToInt16(char LSB, char MSB)
 {
 	uint16_t value = LSB | uint16_t(MSB) << 8;
 	return value;
+}
+
+/*!
+ * @internal
+ */
+uint16_t convertHexDigitToInt16(char digit)
+{
+    switch(digit)
+    {
+    case '0':
+        return 0;
+    case '1':
+        return 1;
+    case '2':
+        return 2;
+    case '3':
+        return 3;
+    case '4':
+        return 4;
+    case '5':
+        return 5;
+    case '6':
+        return 6;
+    case '7':
+        return 7;
+    case '8':
+        return 8;
+    case '9':
+        return 9;
+    case 'A':
+        return 10;
+    case 'B':
+        return 11;
+    case 'C':
+        return 12;
+    case 'D':
+        return 13;
+    case 'E':
+        return 14;
+    case 'F':
+        return 15;
+    }
+    return -1;
+}
+
+/*!
+ * @internal
+ */
+bool convertArduinoMsgToInt16(const char* msg, uint16_t* value)
+{
+    if (msg == NULL || value == NULL)
+    {
+        *value = -1;
+        return false;
+    }
+
+    std::string message(msg);
+    
+    uint16_t tmp = -1;
+
+    *value = 0;
+
+    for (int i = message.length() - 1; i > 0; i--)
+    {
+        tmp = convertHexDigitToInt16(message[i]);
+        if (tmp <= -1)
+        {
+            *value = -1;
+            return false;
+        }
+        
+        *value += tmp * pow(16, i - 1);
+    }
+
+    return true;
 }
