@@ -155,3 +155,12 @@ bool convertArduinoMsgToInt16(const char* msg, uint16_t* value)
 
     return true;
 }
+
+bool convertJsonStrToPtree(const char* jsonString,
+                                    boost::property_tree::ptree& dataTree)
+{
+    std::istringstream buffer(jsonString);
+    boost::property_tree::read_json(buffer, dataTree);
+
+    return true;
+}

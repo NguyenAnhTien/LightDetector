@@ -1,4 +1,4 @@
-/*****************************************************************************/
+/***************************************************************************/
 /*!
  * @file JsonCommon.h
  * @brief The declaration which is used in JsonBuilder and JsonParser
@@ -12,7 +12,7 @@
  * 2016-Dec-21 Created tien.nguyenanh94@gmail.com
  * 2016-Dec-22 Modified tien.nguyenanh94@gmail.com
  */
-/*****************************************************************************/
+/***************************************************************************/
 
 #ifndef __COMMON_H__
 #define __COMMON_H__
@@ -85,5 +85,12 @@ uint16_t convertToInt16(char LSB, char MSB);
 bool convertArduinoMsgToInt16(const char* msg, uint16_t* value);
 
 
+/*!
+ * @brief
+ * param[in] message
+ * return
+ */
+bool convertJsonStrToPtree(const char* jsonString,
+                                    boost::property_tree::ptree& dataTree);
 
 #endif
