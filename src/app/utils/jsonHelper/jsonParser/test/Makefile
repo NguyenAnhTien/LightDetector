@@ -1,10 +1,10 @@
 #-----------------------------------------------------------------------------
-# Makefile - src/app/utils/jsonHelper/jsonBuilder/test
+# Makefile - src/app/utils/jsonHelper/jsonParser/test
 #-----------------------------------------------------------------------------
 
 #-----------------------------------------------------------------------------
 APP = unittest
-TEST_OBJECT = src/app/utils/jsonHelper/jsonBuilder/
+TEST_OBJECT = src/app/utils/jsonHelper/jsonParser/
 
 #-----------------------------------------------------------------------------
 #

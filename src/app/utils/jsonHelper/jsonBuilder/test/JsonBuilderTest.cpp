@@ -104,7 +104,6 @@ TEST_F(JsonBuilderTest, TestbuildJson_RESULT_OK)
 
     bool status = buildJson(message.c_str(), &jsonString);
     boost::property_tree::ptree actualTree;
-    std::cout << "jsonString: " << jsonString << std::endl;
     std::stringstream stringStream(jsonString);
     boost::property_tree::read_json(stringStream, actualTree);
 
