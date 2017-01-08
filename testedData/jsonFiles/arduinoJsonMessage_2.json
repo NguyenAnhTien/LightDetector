@@ -1,0 +1,12 @@
+{
+    "MESSAGE_TYPE" : "LIGHT_INTENSITY_VALUE",
+    "data" : 
+    {
+        "LIGHT_INTENSITY_VALUE" : "640"
+    },
+    "Sender" : 
+    {
+        "IP" : "192.168.1.177",
+        "Port" : "5600"
+    }
+}

@@ -1,0 +1,28 @@
+/***************************************************************************/
+/*!
+ * @file JsonParserForC.h
+ * @brief
+ *
+ * Copyright (c) Tien Nguyen Anh
+ *
+ * @detail
+ *
+ * Modified History
+ * ---------------
+ * 2017-Jan-07 Created tien.nguyenanh94@gmail.com
+ */
+/***************************************************************************/
+
+#ifndef __JSON_PARSER_FOR_C__
+#define __JSON_PARSER_FOR_C__
+
+#include "JsonCommon.h"
+
+/*!
+ * @brief
+ * param[in] message
+ * return
+ */
+bool parseLightInteJson(const char* jsonString, LightIntensityInfo* info);
+
+#endif
