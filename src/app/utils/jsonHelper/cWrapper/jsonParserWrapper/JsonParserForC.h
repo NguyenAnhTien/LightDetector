@@ -16,7 +16,15 @@
 #ifndef __JSON_PARSER_FOR_C__
 #define __JSON_PARSER_FOR_C__
 
-#include "JsonCommon.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+
+#include "DataDef.h"
+
+#ifdef __cplusplus
+extern "C"{
+#endif
 
 /*!
  * @brief
@@ -25,4 +33,7 @@
  */
 bool parseLightInteJson(const char* jsonString, LightIntensityInfo* info);
 
+#ifdef __cplusplus
+}
+#endif
 #endif

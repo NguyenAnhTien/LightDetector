@@ -41,7 +41,7 @@ CFLAGS += -ansi
 
 CC = gcc
 
-COMMON_FLAGS = -ansi -g -std=c++11
+COMMON_FLAGS = -ansi -g -fPIC
 
 ifeq ($(APP),unittest)
 	COMMON_FLAGS += -DUNITTEST

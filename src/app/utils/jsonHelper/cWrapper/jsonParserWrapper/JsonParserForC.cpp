@@ -14,6 +14,7 @@
 /***************************************************************************/
 
 #include "JsonParserForC.h"
+#include "JsonParser.h"
 
 /*!
  * @internal

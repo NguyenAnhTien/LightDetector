@@ -8,8 +8,17 @@
  * @detail The testing file of the implementation of JsonBuilderTest class
  */
 /****************************************************************************/
+
+#include <iostream>
+#include <string.h>
+#include <string>
+#include <math.h>
+#include <regex>
 #include <cstdlib>
+
 #include <gtest/gtest.h>
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
 #include "JsonParser.h"
 
@@ -42,7 +51,7 @@ TEST_F(JsonParserTest, TestparseLightInteJson_RESULT_OK)
     boost::property_tree::read_json(jsonFilePath, pTree);
     std::stringstream jsonStrStream;
     boost::property_tree::write_json(jsonStrStream, pTree);
-    status = parseLightInteJson(jsonStrStream.str().c_str(), &info);
+    status = parseLightInteJson(jsonStrStream.str(), info);
 
     EXPECT_TRUE(status);
     EXPECT_TRUE(info.data.lightIntensity == 33);

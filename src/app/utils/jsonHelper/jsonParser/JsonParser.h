@@ -16,9 +16,20 @@
 #ifndef __JSON_PARSER_H__
 #define __JSON_PARSER_H__
 
-#include "DataDef.h"
+#include <iostream>
+#include <string>
+#include <math.h>
+#include <regex>
+#include <string.h>
+
 #include "JsonCommon.h"
 
-bool parseLightInteJson(const char* jsonString, LightIntensityInfo* info);
+/*!
+ * @brief
+ * param[in] message
+ * return
+ */
+bool parseLightInteJson(const std::string& jsonString,
+                                                LightIntensityInfo& info);
 
 #endif

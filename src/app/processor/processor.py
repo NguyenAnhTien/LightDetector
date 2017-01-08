@@ -11,6 +11,9 @@ Modified History
 
 import zmq
 
+from cffi_interfaces.__cffi_jsonCommon import jsonCommon_c
+from cffi_interfaces.__cffi_jsonCommon import jsonCommon_cffi
+
 # ZeroMQ Context
 context = zmq.Context()
 

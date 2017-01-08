@@ -28,7 +28,7 @@ protected:
 
 TEST_F(JsonCommonTest, TestisSensorMessage_RESULT_OK)
 {
-    std::string message("LCADB");
+    std::string message("LCADB;192.168.1.177:8787");
     bool status = isSensorMessage(message);
     EXPECT_TRUE(status);
 }
@@ -63,7 +63,7 @@ TEST_F(JsonCommonTest, TestgetJSONMessageType_MESSAGE_TYPE_LIGHT_INTENSITY)
 
 TEST_F(JsonCommonTest, TestgetJSONMessageType_NOT_SENSOR_MESSAGE)
 {
-    std::string message("LCAD");
+    std::string message("RCAD");
     MESSAGE_TYPE messageType = getJSONMessageType(message);
     EXPECT_EQ(messageType, MESSAGE_TYPE_DEFAULT);
 }
@@ -75,21 +75,11 @@ TEST_F(JsonCommonTest, TestgetJSONMessageType_DEFAULT_TYPE)
     EXPECT_EQ(messageType, MESSAGE_TYPE_DEFAULT);
 }
 
-TEST_F(JsonCommonTest, TestconvertToInt16)
-{
-    char LSB = 'A';
-    char MSB = 'B';
-    uint16_t value = convertToInt16(LSB, MSB);
-    EXPECT_EQ(16961, value);
-}
-
 TEST_F(JsonCommonTest, TestconvertArduinoMsgToInt16)
 {
     uint16_t value = -1;
-    char msg[7];
-    memset(msg, 0, sizeof(char) * 7);
-    strcpy(msg, "L0820");
-    bool status = convertArduinoMsgToInt16(msg, &value);
+    std::string msg("L0820");
+    bool status = convertArduinoMsgToInt16(msg, value);
     EXPECT_TRUE(status);
     EXPECT_EQ(value, 640);
 }

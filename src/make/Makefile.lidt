@@ -24,16 +24,17 @@ RM := rm -f
 LN := ln -f
 CP := cp -f
 
-CAT := cat
-CUT := cut
-AWK := awk
-SED := sed
-ECHO := echo
-TOUCH := touch
-CHMOD := chmod
-PYTHON := python
-MAKE := make
-LD      = gcc
+CAT 	:= cat
+CUT 	:= cut
+AWK 	:= awk
+SED 	:= sed
+ECHO 	:= echo
+TOUCH 	:= touch
+CHMOD 	:= chmod
+PYTHON 	:= python
+MAKE 	:= make
+LD      := gcc
+PYTHON 	:= python3
 
 ifeq ($(USING_LANGUAGE), CPP)
     LD = g++

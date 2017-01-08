@@ -28,8 +28,10 @@ class MessageSender
 {
 public:
     MessageSender();
-    bool sendMessageUDP(std::string data, std::string host, unsigned int port);
-    bool sendMessageTCP(std::string data, std::string host, unsigned int port);
+    bool sendMessageUDP(std::string data, std::string host,
+                                                        unsigned int port);
+    bool sendMessageTCP(std::string data, std::string host,
+                                                        unsigned int port);
 
 private:
     Poco::Net::DatagramSocket sender;

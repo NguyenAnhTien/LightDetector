@@ -19,11 +19,11 @@
 /*!
  * @internal
  */
-bool isSensorMessage(const char* message)
+bool isSensorMessage(const std::string& message)
 {
     std::string messageStr(message);
 
-    if (messageStr.length() >= MAX_SENSOR_MESSAGE_LENGTH
+    if (messageStr.length() > MAX_SENSOR_MESSAGE_LENGTH
         || messageStr.length() <= 0)
     {
         return false;
@@ -45,7 +45,7 @@ bool isSensorMessage(const char* message)
 /*!
  * @internal
  */
-MESSAGE_TYPE getJSONMessageType(const char* message)
+MESSAGE_TYPE getJSONMessageType(const std::string& message)
 {
     switch(message[0])
     {
@@ -70,15 +70,6 @@ std::string convertMessageTypeToStr(const MESSAGE_TYPE& messageType)
     default:
         return std::string("MESSAGE_TYPE_DEFAULT");
     }
-}
-
-/*!
- * @internal
- */
-uint16_t convertToInt16(char LSB, char MSB)
-{
-	uint16_t value = LSB | uint16_t(MSB) << 8;
-	return value;
 }
 
 /*!
@@ -127,36 +118,34 @@ uint16_t convertHexDigitToInt16(char digit)
 /*!
  * @internal
  */
-bool convertArduinoMsgToInt16(const char* msg, uint16_t* value)
+bool convertArduinoMsgToInt16(const std::string& msg, uint16_t& value)
 {
-    if (msg == NULL || value == NULL)
+    if (msg.compare("") == 0)
     {
-        *value = -1;
+        value = -1;
         return false;
     }
-
-    std::string message(msg);
     
     uint16_t tmp = -1;
 
-    *value = 0;
+    value = 0;
 
-    for (int i = message.length() - 1; i > 0; i--)
+    for (int i = msg.length() - 1; i > 0; i--)
     {
-        tmp = convertHexDigitToInt16(message[i]);
+        tmp = convertHexDigitToInt16(msg[i]);
         if (tmp <= -1)
         {
-            *value = -1;
+            value = -1;
             return false;
         }
         
-        *value += tmp * pow(16, i - 1);
+        value += tmp * pow(16, i - 1);
     }
 
     return true;
 }
 
-bool convertJsonStrToPtree(const char* jsonString,
+bool convertJsonStrToPtree(const std::string& jsonString,
                                     boost::property_tree::ptree& dataTree)
 {
     std::istringstream buffer(jsonString);

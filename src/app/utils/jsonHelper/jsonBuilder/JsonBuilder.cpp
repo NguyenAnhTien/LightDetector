@@ -15,8 +15,13 @@
 /*****************************************************************************/
 
 #include <iostream>
-#include <regex>
+#include <string.h>
 #include <string>
+#include <math.h>
+#include <regex>
+
+#include <boost/property_tree/ptree.hpp>
+#include <boost/property_tree/json_parser.hpp>
 
 #include "JsonBuilder.h"
 
@@ -45,7 +50,7 @@ STATIC bool buildJsonMessageType(const MESSAGE_TYPE& messageType,
 /*!
  * @internal
  */
-STATIC bool buildLightIntensityJson(const char* message,
+STATIC bool buildLightIntensityJson(const std::string& message,
                                     boost::property_tree::ptree& dataTree)
 {
     if (getJSONMessageType(message) != MESSAGE_TYPE_LIGHT_INTENSITY)
@@ -55,7 +60,7 @@ STATIC bool buildLightIntensityJson(const char* message,
 
     uint16_t lightIntensity = -1;
 
-    if (!convertArduinoMsgToInt16(message, &lightIntensity))
+    if (!convertArduinoMsgToInt16(message, lightIntensity))
     {
         return false;
     }
@@ -90,12 +95,12 @@ std::vector<std::string> splitWordRegex(const std::string& message,
 /*!
  * @internal
  */
-STATIC bool buildIPSenderJSON(const char* ipAddress,
+STATIC bool buildIPSenderJSON(const std::string& ipAddress,
                                 boost::property_tree::ptree& senderTree)
 {
     boost::property_tree::ptree senderDataTree;
 
-    std::vector<std::string> token = splitWordRegex(std::string(ipAddress),
+    std::vector<std::string> token = splitWordRegex(ipAddress,
                                     std::string(IP_PORT_REGEX_SPLITTER));
 
     if (token.size() != IP_PORT_TOKEN_SIZE)
@@ -124,15 +129,20 @@ std::string writeJsonToString(boost::property_tree::ptree& pTree)
  * @internal Using Regex to break message down into two part:
  *                 Data and IP of sender
  */
-bool buildJson(const char* message, char** jsonString)
+bool buildJson(const std::string& message, std::string& jsonString)
 {
     boost::property_tree::ptree root;
     boost::property_tree::ptree messageTypeTree;
     boost::property_tree::ptree dataTree;
     boost::property_tree::ptree senderTree;
 
-    std::vector<std::string> token = splitWordRegex(std::string(message),
+    std::vector<std::string> token = splitWordRegex(message,
                                     std::string(SENSOR_MESSAGE_SPLITTER));
+
+    if (token.size() < 2)
+    {
+        return false;
+    }
 
     MESSAGE_TYPE messageType = getJSONMessageType(token[0].c_str());
 
@@ -154,7 +164,7 @@ bool buildJson(const char* message, char** jsonString)
     root.add_child(ATTR_JSON_DATA, dataTree);
     root.add_child(ATTR_JSON_SENDER, senderTree);
 
-    *jsonString = strdup(writeJsonToString(root).c_str());
+    jsonString = writeJsonToString(root);
 
     return true;
 }

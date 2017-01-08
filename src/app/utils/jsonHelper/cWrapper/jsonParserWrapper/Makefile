@@ -14,8 +14,8 @@ endif
 
 #-----------------------------------------------------------------------------
 #source
-SRCS = JsonParserForC.c
-OBJS = $(SRCS:.c=.o)
+SRCS = JsonParserForC.cpp
+OBJS = $(SRCS:.cpp=.o)
 
 #-----------------------------------------------------------------------------
 SUBOBJS = 	JsonCommon.o \
@@ -30,7 +30,12 @@ LIBRARY             += jsonParser
 #-----------------------------------------------------------------------------
 #include source code
 INCS_DIRS += src/app/utils/jsonHelper/common \
-			 src/app/utils/jsonHelper/jsonParser
+			 src/app/utils/jsonHelper/jsonParser \
+			 src/app/dataManager
+
+#-----------------------------------------------------------------------------
+CLEAN_DIRS += $(LIDT_ROOT)/src/app/utils/jsonHelper/common \
+				$(LIDT_ROOT)/src/app/utils/jsonHelper/jsonParser
 
 #-----------------------------------------------------------------------------
 #include makefile

@@ -33,4 +33,8 @@ LIBDIRS_jsonBuilder = $(LIDT_ROOT)/src/app/utils/jsonHelper/jsonBuilder/
 LIBRARY             += jsonBuilder
 
 #-----------------------------------------------------------------------------
+CLEAN_DIRS += $(LIDT_ROOT)/src/app/utils/jsonHelper/common/ \
+              $(LIDT_ROOT)/src/app/utils/jsonHelper/jsonBuilder
+
+#-----------------------------------------------------------------------------
 include $(LIDT_MAKEDIR)/Makefile.app 
