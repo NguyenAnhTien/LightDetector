@@ -21,4 +21,8 @@ ifdef   CLEAN_DIRS
 	$(foreach dir, $(CLEAN_DIRS), cd $(dir); $(MAKE) $@;)
 endif
 
+ifdef CFFI_SRCS
+	$(RM) -r __pycache__
+endif
+
 endif

@@ -16,23 +16,31 @@ import os
 LIDT_ROOT = os.getenv('LIDT_ROOT')
 LIDT_LIBS = os.path.sep.join((LIDT_ROOT, 'obj', 'libs'))
 
-JSON_BUILDER_FOR_C_INCLUDES = os.path.sep.join((LIDT_ROOT, 'src', 
-                            'app', 'utils', 'jsonHelper', 'cWrapper',
-                            'jsonBuilderWrapper'))
-JSON_BUILDER_FOR_C_LIBS = ["jsonBuilderForC"]
+JSON_MESSAGE_SENDER_FOR_C_INCLUDES = os.path.sep.join((LIDT_ROOT, 'src', 
+                            'app', 'messenger', 'messageSender', 'cWrapper'))
+JSON_MESSAGE_SENDER_FOR_C_LIBS = ["messageSenderForC"]
 
+#define common libraries
+POCO_ROOT = os.getenv('POCO_ROOT')
+POCO_INCLUDES = os.path.sep.join((POCO_ROOT, 'include'))
+POCO_LIB_DIR = os.path.sep.join((POCO_ROOT, 'lib'))
+POCO_LIBS = ["PocoNet", 'PocoNetd', 'stdc++']
 
 jsonCommon_cffi = cffi.FFI()
 jsonCommon_cffi.cdef("""
-    bool buildJsonForC(const char* message, char** jsonString);
+    bool sendMessageUDPForC(const char* data, const char* host,
+                                                        unsigned int port);
+    bool sendMessageTCPForC(const char* data, const char* host,
+                                                        unsigned int port);
 """)
 
 jsonCommon_c = jsonCommon_cffi.verify("""
 
-                #include "JsonBuilderForC.h"
+                #include "MessageSenderForC.h"
 
                 """,
-                include_dirs = [JSON_BUILDER_FOR_C_INCLUDES],
-                libraries = JSON_BUILDER_FOR_C_LIBS,
-                library_dirs = [LIDT_LIBS],
-                modulename = "__cffi_jsonBuilder")
+                include_dirs = [JSON_MESSAGE_SENDER_FOR_C_INCLUDES,
+                                POCO_INCLUDES],
+                libraries = JSON_MESSAGE_SENDER_FOR_C_LIBS + POCO_LIBS,
+                library_dirs = [LIDT_LIBS, POCO_LIB_DIR],
+                modulename = "__cffi_messageSenderForC")

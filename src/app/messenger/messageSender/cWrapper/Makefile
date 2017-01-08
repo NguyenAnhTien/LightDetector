@@ -14,19 +14,22 @@ endif
 
 #-----------------------------------------------------------------------------
 #source
-SRCS = JsonBuilderForC.c
-OBJS = $(SRCS:.c=.o)
+SRCS = MessageSenderForC.cpp
+OBJS = $(SRCS:.cpp=.o)
 
 #-----------------------------------------------------------------------------
 SUBOBJS =   MessageSender.o
 
 #-----------------------------------------------------------------------------
 LIBDIRS_messageSender  += $(LIDT_ROOT)/src/app/messenger/messageSender
-LIBRARY                += MessageSender
+LIBRARY                += messageSender
 
 #-----------------------------------------------------------------------------
 #include source code
 INCS_DIRS += src/app/messenger/messageSender
+
+#-----------------------------------------------------------------------------
+CLEAN_DIRS += $(LIDT_ROOT)/src/app/messenger/messageSender
 
 #-----------------------------------------------------------------------------
 #include makefile

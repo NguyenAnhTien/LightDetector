@@ -98,7 +98,7 @@ endif
 #Compiling rules for CFFI
 __cffi_%.pyc: __cffi_%.py
 	$(ECHO) Compile CFFI interace $^
-	$(PYTHON) $^
+	$(PYTHON)  __cffi_$*
 
 #----------------------------------------------------------------------------
 # Unittest
