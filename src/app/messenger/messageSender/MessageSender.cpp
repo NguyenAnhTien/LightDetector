@@ -20,14 +20,15 @@ MessageSender::MessageSender()
 
 }
 
-bool MessageSender::sendMessageUDP(std::string data, std::string host,
-									unsigned int port)
+bool MessageSender::sendMessageTCP(std::string data, std::string host,
+                                    unsigned int port)
 {
+    
 
 }
 
-bool MessageSender::sendMessageTCP(std::string message, std::string host,
-									unsigned int port)
+bool MessageSender::sendMessageUDP(std::string message, std::string host,
+                                    unsigned int port)
 {
     Poco::Net::SocketAddress socketAddress(host, port);
     this->sender.connect(socketAddress);
