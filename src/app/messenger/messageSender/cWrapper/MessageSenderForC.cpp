@@ -22,7 +22,15 @@
 bool sendMessageUDPForC(const char* data, const char* host,
                                                         unsigned int port)
 {
+    if (data == NULL || host == NULL)
+    {
+        return false;
+    }
 
+    std::string message(data);
+    std::string hostStr(host);
+
+    return sendMessageUDP(message, host, port);
 }
 
 /*!
@@ -31,5 +39,5 @@ bool sendMessageUDPForC(const char* data, const char* host,
 bool sendMessageTCPForC(const char* data, const char* host,
                                                         unsigned int port)
 {
-
+    return false;
 }

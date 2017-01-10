@@ -20,6 +20,8 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
+#include "DataDef.h"
+
 #ifdef __cplusplus
 extern "C"{
 #endif
@@ -36,7 +38,8 @@ void getJSONMessageTypeForC(const char* message, MESSAGE_TYPE* messageType);
  * param[in] message
  * return
  */
-char* convertMessageTypeToStrForC(const MESSAGE_TYPE* messageType);
+bool convertMessageTypeToStrForC(const MESSAGE_TYPE* messageType,
+                                                    char** messageTypeStr);
 
 /*!
  * @brief

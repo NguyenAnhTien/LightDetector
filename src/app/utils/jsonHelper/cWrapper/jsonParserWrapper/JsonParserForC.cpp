@@ -19,7 +19,7 @@
 /*!
  * @internal
  */
-bool parseLightInteJson(const char* jsonString, LightIntensityInfo* info)
+bool parseLightInteJsonForC(const char* jsonString, LightIntensityInfo* info)
 {
-    
+    return parseLightInteJson(std::string(jsonString), *info);
 }
