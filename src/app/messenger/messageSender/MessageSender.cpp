@@ -18,7 +18,8 @@
 /*!
  * @internal
  */
-bool sendMessageTCP(std::string data, std::string host, unsigned int port)
+bool sendMessageTCP(const std::string& message, const std::string& host,
+                                                        unsigned int port)
 {
     
 
@@ -27,7 +28,8 @@ bool sendMessageTCP(std::string data, std::string host, unsigned int port)
 /*!
  * @internal
  */
-bool sendMessageUDP(std::string message, std::string host, unsigned int port)
+bool sendMessageUDP(const std::string& message, const std::string& host,
+                                                        unsigned int port)
 {
 	Poco::Net::DatagramSocket sender;
     Poco::Net::SocketAddress socketAddress(host, port);

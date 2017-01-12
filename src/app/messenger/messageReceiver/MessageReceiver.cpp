@@ -71,7 +71,7 @@ void MessageReceiver::run()
                 Poco::Net::SocketAddress sender;
                 int n = this->socket.receiveFrom(pBuffer, this->bufferSize, sender);
 
-                char* jsonString = NULL;
+                std::string jsonString;
 
                 /*!
                  * Appending IP of Sender to message
@@ -81,7 +81,7 @@ void MessageReceiver::run()
 
                 if (isSensorMessage(pBuffer))
                 {
-                    if (!buildJson(pBuffer, &jsonString))
+                    if (!buildJson(pBuffer, jsonString))
                     {
                         continue;
                     }
@@ -90,7 +90,7 @@ void MessageReceiver::run()
                     
                     std::string topic = convertMessageTypeToStr(messageType);
                     s_sendmore (publisher, (char*)topic.c_str());
-                    s_send (publisher, jsonString);
+                    s_send (publisher, (char*)jsonString.c_str());
                     sleep (1);
                 }
 

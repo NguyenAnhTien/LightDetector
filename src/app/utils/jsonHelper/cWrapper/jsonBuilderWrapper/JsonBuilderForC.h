@@ -20,8 +20,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 
-#include "JsonBuilder.h"
-
 #ifdef __cplusplus
 extern "C"{
 #endif

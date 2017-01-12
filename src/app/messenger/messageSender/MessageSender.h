@@ -29,7 +29,7 @@
  * param[in] message
  * return
  */
-bool sendMessageUDP(const std::string& data, const std::string& host,
+bool sendMessageUDP(const std::string& message, const std::string& host,
                                                         unsigned int port);
 
 
@@ -38,7 +38,7 @@ bool sendMessageUDP(const std::string& data, const std::string& host,
  * param[in] message
  * return
  */
-bool sendMessageTCP(const std::string& data, const std::string& host,
+bool sendMessageTCP(const std::string& message, const std::string& host,
                                                         unsigned int port);
 
 #endif
